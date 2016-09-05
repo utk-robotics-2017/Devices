@@ -1,10 +1,9 @@
 import threading
-import time
-from inputs import DeviceManager
+from inputs import devices
 
 class GamePad:
     def __init__(self, number):
-        self.device = DeviceManager().gamepads[number]
+        self.device = devices.gamepads[number]
         self.thumbstickDeadzone = 8000.0
         self.thumbstickMax = 32768.0
         self.triggerDeadzone = 5.0
