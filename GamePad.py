@@ -1,5 +1,5 @@
 import threading
-from input_devices.inputs import devices
+from .input_devices.inputs import devices
 
 class GamePad:
     def __init__(self, number):
