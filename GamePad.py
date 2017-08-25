@@ -1,11 +1,14 @@
 import threading
-from .input_devices.inputs import devices
+#from .input_devices.inputs import devices
+from inputs import devices
 
 class GamePad:
     def __init__(self, number):
         self.device = devices.gamepads[number]
-        self.thumbstickDeadzone = 8000.0
-        self.thumbstickMax = 32768.0
+        #self.thumbstickDeadzone = 8000.0
+        self.thumbstickDeadzone = 0
+        #self.thumbstickMax = 32768.0
+        self.thumbstickMax = 256.0
         self.triggerDeadzone = 5.0
         self.triggerMax = 255.0
         self.leftStick = { "x": 0, "y": 0 }
@@ -36,6 +39,8 @@ class GamePad:
         while True:
             events = self.device.read()
             for event in events:
+
+                print(event.ev_type + " " + event.code + " " + str(event.state))
 
                 #Face buttons
                 if event.ev_type == "Key":
@@ -74,6 +79,8 @@ class GamePad:
                             mod = -1
                         val = (event.state * mod - self.thumbstickDeadzone) / (self.thumbstickMax - self.thumbstickDeadzone)
                         val = max(min(val, 1), 0) * mod
+
+                        print("Update: " + event.code + " " + str(event.state) + " " + str(val))
 
                         if event.code == "ABS_X":
                             self.leftStick["x"] = val
@@ -115,3 +122,6 @@ class GamePad:
                         else:
                             self.buttons["D_Right"] = 0
                             self.buttons["D_Left"] = 0
+
+                    else:
+                        print(event.code)
